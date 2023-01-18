@@ -42,7 +42,7 @@ async Task<List<PortableExecutableReference>?> GetReference()
     {
         try
         {
-            // Server是在服务器运行可以直接获取文件 
+            // Server是在服务器运行可以直接获取文件 如果是Maui Wpf这种Hybrid开发的话不需要通过HttpClient获取可以跟Server一样直接读取文件
             refs?.Add(MetadataReference.CreateFromFile(v.Location));
         }
         catch (Exception e)
