@@ -2,7 +2,7 @@
 
 public class RazorCompile
 {
-    private static List<PortableExecutableReference>? _refs;
+    private static List<PortableExecutableReference>? _references;
 
     private static TagHelperDescriptor[]? _tagHelpers;
 
@@ -16,7 +16,7 @@ public class RazorCompile
     /// <returns></returns>
     public static void Initialized(List<PortableExecutableReference>? refs, List<RazorExtension> extensions)
     {
-        _refs = refs;
+        _references = refs;
         _extensions = extensions;
     }
 
@@ -39,9 +39,9 @@ public class RazorCompile
             return null;
         }
 
-        if (_refs == null)
+        if (_references == null)
         {
-            throw new ArgumentNullException(nameof(_refs));
+            throw new ArgumentNullException(nameof(_references));
         }
 
         if (_extensions == null)
@@ -56,18 +56,18 @@ public class RazorCompile
 
         if (_tagHelpers == null)
         {
-            var rpe1 = RazorProjectEngine.Create(config, proj, b =>
+            var razorProjectEngine = RazorProjectEngine.Create(config, proj, b =>
             {
                 b.Features.Add(new DefaultMetadataReferenceFeature
                 {
-                    References = _refs
+                    References = _references
                 });
                 b.Features.Add(new CompilationTagHelperFeature());
                 b.Features.Add(new DefaultTagHelperDescriptorProvider());
                 CompilerFeatures.Register(b);
             });
 
-            _tagHelpers = rpe1.Engine.Features.OfType<ITagHelperFeature>().Single().GetDescriptors().ToArray();
+            _tagHelpers = razorProjectEngine.Engine.Features.OfType<ITagHelperFeature>().Single().GetDescriptors().ToArray();
         }
 
         var engine = RazorProjectEngine.Create(config, proj,
@@ -94,7 +94,7 @@ public class RazorCompile
             .WithOptions(new Microsoft.CodeAnalysis.CSharp.CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
                 concurrentBuild: razorOptions.ConcurrentBuild)) // TODO: If it is web Assembly you need to cancel the concurrency otherwise it will not work
             .AddSyntaxTrees(st)
-            .AddReferences(_refs);
+            .AddReferences(_references);
 
         MemoryStream ms = new();
         var result = csc.Emit(ms);
