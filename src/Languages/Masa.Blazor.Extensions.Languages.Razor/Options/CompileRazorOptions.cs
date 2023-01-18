@@ -1,6 +1,6 @@
 ﻿namespace Masa.Blazor.Extensions.Languages.Razor;
 
-public class RenderingToTypeOptions
+public class CompileRazorOptions
 {
     /// <summary>
     /// 编译代码

@@ -1,43 +1,30 @@
-﻿using Microsoft.AspNetCore.Razor.Language;
+﻿namespace Masa.Blazor.Extensions.Languages.Razor;
 
-namespace Masa.Blazor.Extensions.Languages.Razor;
-
-public class CodeRenderingProject : RazorProjectFileSystem
+public class CompileRazorProjectFileSystem : RazorProjectFileSystem
 {
-    private static List<string> globalUsing = new()
+    private static List<string> _globalUsing = new()
     {
         "@using Microsoft.AspNetCore.Components.Web"
     };
 
-    /// <summary>
-    /// 获取全局Using
-    /// </summary>
     public static string GlobalUsing =>
-        string.Join(Environment.NewLine, globalUsing);
+        string.Join(Environment.NewLine, _globalUsing);
 
-    /// <summary>
-    /// 添加全局引用
-    /// </summary>
-    /// <param name="args"></param>
     public static void AddGlobalUsing(params string[] args)
     {
-        lock (globalUsing)
+        lock (_globalUsing)
         {
-            globalUsing.AddRange(args);
+            _globalUsing.AddRange(args);
         }
     }
-
-    /// <summary>
-    /// 清楚全局引用
-    /// </summary>
-    /// <param name="args"></param>
+    
     public static void RemoveGlobalUsing(params string[] args)
     {
-        lock (globalUsing)
+        lock (_globalUsing)
         {
             foreach (var s in args)
             {
-                globalUsing.Remove(s);
+                _globalUsing.Remove(s);
             }
         }
     }
@@ -55,7 +42,7 @@ public class CodeRenderingProject : RazorProjectFileSystem
     public override RazorProjectItem GetItem(string path, string fileKind)
     {
         if (path == "/_Imports.razor")
-            return new CodeRenderingProjectItem()
+            return new CompileRazorProjectItem()
             {
                 Name = "_Imports.razor",
                 Code = GlobalUsing

@@ -2,5 +2,5 @@
 
 public class Constant
 {
-    public const string RootNamespace = "Masa.Blazor.Extensions.Languages.Razor";
+    public const string ROOT_NAMESPACE = "Masa.Blazor.Extensions.Languages.Razor";
 }

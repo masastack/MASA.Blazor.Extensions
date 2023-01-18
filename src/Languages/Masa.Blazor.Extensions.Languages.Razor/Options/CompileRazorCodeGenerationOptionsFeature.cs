@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Razor.Language;
+﻿namespace Masa.Blazor.Extensions.Languages.Razor;
 
-namespace Masa.Blazor.Extensions.Languages.Razor;
-
-public class CodeRenderingFeatureV2 : IConfigureRazorCodeGenerationOptionsFeature, ITagHelperFeature
+public class CompileRazorCodeGenerationOptionsFeature : IConfigureRazorCodeGenerationOptionsFeature, ITagHelperFeature
 {
     public int Order => 1;
 
@@ -10,7 +8,7 @@ public class CodeRenderingFeatureV2 : IConfigureRazorCodeGenerationOptionsFeatur
 
     public void Configure(RazorCodeGenerationOptionsBuilder options)
     {
-        options.RootNamespace = Constant.RootNamespace;
+        options.RootNamespace = Constant.ROOT_NAMESPACE;
     }
 
     public IReadOnlyList<TagHelperDescriptor> TagHelpers { get; set; }
@@ -18,7 +16,6 @@ public class CodeRenderingFeatureV2 : IConfigureRazorCodeGenerationOptionsFeatur
     public IReadOnlyList<TagHelperDescriptor> GetDescriptors()
     {
         return TagHelpers;
-
     }
 
 }

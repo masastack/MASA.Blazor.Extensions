@@ -1,9 +1,6 @@
-﻿using System.Text;
-using Microsoft.AspNetCore.Razor.Language;
+﻿namespace Masa.Blazor.Extensions.Languages.Razor;
 
-namespace Masa.Blazor.Extensions.Languages.Razor;
-
-public class CodeRenderingProjectItem : RazorProjectItem
+public class CompileRazorProjectItem : RazorProjectItem
 {
     public override string FileKind => FileKinds.Component;
 

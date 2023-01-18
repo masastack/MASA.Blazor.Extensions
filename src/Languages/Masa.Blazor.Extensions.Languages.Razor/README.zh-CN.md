@@ -1,19 +1,17 @@
-﻿# Dynamically compile Razor components
+﻿# 动态编译Razor组件
 
-English| [简体中文](./README.zh-CN.md)
+[English](./README.md) | 简体中文
 
-## sample
+## 示例
 
 ```csharp
-// Initialize the RazorCompile must be initialized before calling compilation
+// RazorCompile 在调用编译之前必须先初始化
 RazorCompile.Initialized(await GetReference(),await GetRazorExtension());
 
 async Task<List<PortableExecutableReference>?> GetReference()
-{
-    
-    
+{   
     #region WebAsembly
-
+    // 传入Service
     var httpClient = service.GetService<HttpClient>();
 
     var refs = new List<PortableExecutableReference>();
@@ -21,14 +19,14 @@ async Task<List<PortableExecutableReference>?> GetReference()
     {
         try
         {
-            // WebAssembly You need to get the assembly over the network
+            // web Assembly 需要通过网络获取程序集
             var stream = await httpClient!.GetStreamAsync("_framework/" + v.GetName().Name + ".dll");
             if(stream.Length > 0)
             {
                 refs?.Add(MetadataReference.CreateFromStream(stream));
             }
         }
-        catch (Exception e) // There may be a 404
+        catch (Exception e) // 可能存在404的情况
         {
             Console.WriteLine(e.Message);
         }
@@ -44,7 +42,7 @@ async Task<List<PortableExecutableReference>?> GetReference()
     {
         try
         {
-            // Server is running on the Server and you can get the file directly if you're a Hybrid like Maui Wpf you don't need to get the file through HttpClient and you can get the file directly like server
+            // Server是在服务器运行可以直接获取文件 如果是Maui Wpf这种Hybrid开发的话不需要通过HttpClient获取可以跟Server一样直接读取文件
             refs?.Add(MetadataReference.CreateFromFile(v.Location));
         }
         catch (Exception e)
@@ -56,7 +54,7 @@ async Task<List<PortableExecutableReference>?> GetReference()
 
     #endregion
    
-    // As a result of WebAssembly and Server return to PortableExecutableReference mechanism are different need to separate processing
+    // 由于WebAssembly和Server的机制不太一样需要分开处理返回PortableExecutableReference
     return refs;
 }
 
@@ -73,16 +71,16 @@ async Task<List<RazorExtension>> GetRazorExtension()
 }
 ```
 
-After the initialization is complete, you can call the tool method to edit the Code and Copy the following code to the home page
+初始化完成以后可以调用工具方法编辑Code了 将以下代码Copy到首页
 
 ```csharp
 
 @page "/"
 
-<button class="button" @onclick="Run">Refresh</button>
+<button class="button" @onclick="Run">刷新</button>
 
 <div class="input-container">
-    <textarea @bind="Code" type="text" class="input-box" placeholder="Please enter the execution code" >
+    <textarea @bind="Code" type="text" class="input-box" placeholder="请输入执行代码" >
     </textarea>
 </div>
 
@@ -126,7 +124,7 @@ After the initialization is complete, you can call the tool method to edit the C
     {
         ComponentType = RazorCompile.CompileToType(new CompileRazorOptions()
         {
-            Code = Code // TODO: ConcurrentBuild is guaranteed to be false under WebAssembly because Webassembly does not support multithreading
+            Code = Code // TODO: 在WebAssembly下保证ConcurrentBuild是false 因为Webassembly不支持多线程
         });
 
         StateHasChanged();
@@ -162,16 +160,16 @@ After the initialization is complete, you can call the tool method to edit the C
 ```
 
 
-## Runtime API Reference
+## Api说明
 
-### Add a global reference at compile time
+### 添加编译时的全局引用
 ```csharp
 CompileRazorProjectFileSystem.AddGlobalUsing("@using Masa.Blazor")
 ```
 
-### Remove global references at compile time
+### 删除编译时的全局引用
 ```csharp
 CompileRazorProjectFileSystem.RemoveGlobalUsing("@using Masa.Blazor")
 ```
 
-Global references are called every time you compile and you can dynamically add and remove global references
+全局引用在每次编译的时候都会被调用您可以动态添加和删除全局引用
