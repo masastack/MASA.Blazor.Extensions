@@ -39,15 +39,9 @@ public class RazorCompile
             return null;
         }
 
-        if (_references == null)
-        {
-            throw new ArgumentNullException(nameof(_references));
-        }
-
-        if (_extensions == null)
-        {
-            throw new ArgumentNullException(nameof(_extensions));
-        }
+        ArgumentNullException.ThrowIfNull(nameof(_references));
+        
+        ArgumentNullException.ThrowIfNull(nameof(_extensions));
 
         var config = RazorConfiguration.Create(RazorLanguageVersion.Version_3_0, razorOptions.ConfigurationName,
             _extensions);
@@ -56,28 +50,28 @@ public class RazorCompile
 
         if (_tagHelpers == null)
         {
-            var razorProjectEngine = RazorProjectEngine.Create(config, proj, b =>
+            var razorProjectEngine = RazorProjectEngine.Create(config, proj, builder =>
             {
-                b.Features.Add(new DefaultMetadataReferenceFeature
+                builder.Features.Add(new DefaultMetadataReferenceFeature
                 {
                     References = _references
                 });
-                b.Features.Add(new CompilationTagHelperFeature());
-                b.Features.Add(new DefaultTagHelperDescriptorProvider());
-                CompilerFeatures.Register(b);
+                builder.Features.Add(new CompilationTagHelperFeature());
+                builder.Features.Add(new DefaultTagHelperDescriptorProvider());
+                CompilerFeatures.Register(builder);
             });
 
             _tagHelpers = razorProjectEngine.Engine.Features.OfType<ITagHelperFeature>().Single().GetDescriptors().ToArray();
         }
 
         var engine = RazorProjectEngine.Create(config, proj,
-            b => { b.Features.Add(new CompileRazorCodeGenerationOptionsFeature() { TagHelpers = _tagHelpers }); });
+            builder => { builder.Features.Add(new CompileRazorCodeGenerationOptionsFeature() { TagHelpers = _tagHelpers }); });
 
         var codeRenderingProjectItem = new CompileRazorProjectItem()
         {
             Name = razorOptions.ComponentName.EndsWith(".razor")
                 ? razorOptions.ComponentName
-                : razorOptions.ComponentName + ".razor",
+                : $"{razorOptions.ComponentName}.razor",
             Code = razorOptions.Code
         };
 
@@ -86,7 +80,7 @@ public class RazorCompile
 
         var targetCode = cSharpDocument.GeneratedCode;
 
-        if (string.IsNullOrEmpty(targetCode) && cSharpDocument.Diagnostics.Count != 0)
+        if (string.IsNullOrWhiteSpace(targetCode) && cSharpDocument.Diagnostics.Count != 0)
             return null;
 
         var syntaxTree = Microsoft.CodeAnalysis.CSharp.CSharpSyntaxTree.ParseText(targetCode);

@@ -14,7 +14,7 @@ async Task<List<PortableExecutableReference>?> GetReference()
     // introduction Service
     var httpClient = service.GetService<HttpClient>();
 
-    var refs = new List<PortableExecutableReference>();
+    var portableExecutableReferences = new List<PortableExecutableReference>();
     foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
     {
         try
@@ -23,7 +23,7 @@ async Task<List<PortableExecutableReference>?> GetReference()
             var stream = await httpClient!.GetStreamAsync($"_framework/{assembly.GetName().Name}.dll");
             if(stream.Length > 0)
             {
-                refs?.Add(MetadataReference.CreateFromStream(stream));
+                portableExecutableReferences?.Add(MetadataReference.CreateFromStream(stream));
             }
         }
         catch (Exception e) // There may be a 404
@@ -37,13 +37,13 @@ async Task<List<PortableExecutableReference>?> GetReference()
     
     #region Server
     
-    var refs = new List<PortableExecutableReference>();
+    var portableExecutableReferences = new List<PortableExecutableReference>();
     foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
     {
         try
         {
             // Server is running on the Server and you can get the file directly if you're a Hybrid like Maui Wpf you don't need to get the file through HttpClient and you can get the file directly like server
-            refs?.Add(MetadataReference.CreateFromFile(v.Location));
+            portableExecutableReferences?.Add(MetadataReference.CreateFromFile(v.Location));
         }
         catch (Exception e)
         {
@@ -55,7 +55,7 @@ async Task<List<PortableExecutableReference>?> GetReference()
     #endregion
    
     // As a result of WebAssembly and Server return to PortableExecutableReference mechanism are different need to separate processing
-    return refs;
+    return portableExecutableReferences;
 }
 
 async Task<List<RazorExtension>> GetRazorExtension()

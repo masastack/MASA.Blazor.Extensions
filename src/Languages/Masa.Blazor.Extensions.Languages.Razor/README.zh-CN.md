@@ -14,7 +14,7 @@ async Task<List<PortableExecutableReference>?> GetReference()
     // 传入Service
     var httpClient = service.GetService<HttpClient>();
 
-    var refs = new List<PortableExecutableReference>();
+    var portableExecutableReferences = new List<PortableExecutableReference>();
     foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
     {
         try
@@ -23,7 +23,7 @@ async Task<List<PortableExecutableReference>?> GetReference()
             var stream = await httpClient!.GetStreamAsync($"_framework/{assembly.GetName().Name}.dll");
             if(stream.Length > 0)
             {
-                refs?.Add(MetadataReference.CreateFromStream(stream));
+                portableExecutableReferences?.Add(MetadataReference.CreateFromStream(stream));
             }
         }
         catch (Exception e) // 可能存在404的情况
@@ -37,13 +37,13 @@ async Task<List<PortableExecutableReference>?> GetReference()
     
     #region Server
     
-    var refs = new List<PortableExecutableReference>();
+    var portableExecutableReferences = new List<PortableExecutableReference>();
     foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
     {
         try
         {
             // Server是在服务器运行可以直接获取文件 如果是Maui Wpf这种Hybrid开发的话不需要通过HttpClient获取可以跟Server一样直接读取文件
-            refs?.Add(MetadataReference.CreateFromFile(asm.Location));
+            portableExecutableReferences?.Add(MetadataReference.CreateFromFile(asm.Location));
         }
         catch (Exception e)
         {
@@ -55,7 +55,7 @@ async Task<List<PortableExecutableReference>?> GetReference()
     #endregion
    
     // 由于WebAssembly和Server的机制不太一样需要分开处理返回PortableExecutableReference
-    return refs;
+    return portableExecutableReferences;
 }
 
 async Task<List<RazorExtension>> GetRazorExtension()
@@ -71,7 +71,7 @@ async Task<List<RazorExtension>> GetRazorExtension()
 }
 ```
 
-初始化完成以后可以调用工具方法编辑Code了 将以下代码Copy到首页
+初始化完成以后可以调用工具方法编辑Code了，将以下代码Copy到首页
 
 ```csharp
 
