@@ -15,12 +15,12 @@ async Task<List<PortableExecutableReference>?> GetReference()
     var httpClient = service.GetService<HttpClient>();
 
     var refs = new List<PortableExecutableReference>();
-    foreach (var v in AppDomain.CurrentDomain.GetAssemblies())
+    foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
     {
         try
         {
             // web Assembly 需要通过网络获取程序集
-            var stream = await httpClient!.GetStreamAsync("_framework/" + v.GetName().Name + ".dll");
+            var stream = await httpClient!.GetStreamAsync($"_framework/{assembly.GetName().Name}.dll");
             if(stream.Length > 0)
             {
                 refs?.Add(MetadataReference.CreateFromStream(stream));
@@ -38,12 +38,12 @@ async Task<List<PortableExecutableReference>?> GetReference()
     #region Server
     
     var refs = new List<PortableExecutableReference>();
-    foreach (var v in AppDomain.CurrentDomain.GetAssemblies())
+    foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
     {
         try
         {
             // Server是在服务器运行可以直接获取文件 如果是Maui Wpf这种Hybrid开发的话不需要通过HttpClient获取可以跟Server一样直接读取文件
-            refs?.Add(MetadataReference.CreateFromFile(v.Location));
+            refs?.Add(MetadataReference.CreateFromFile(asm.Location));
         }
         catch (Exception e)
         {

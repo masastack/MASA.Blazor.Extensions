@@ -1,8 +1,10 @@
-﻿namespace Masa.Blazor.Extensions.Languages.Razor;
+﻿using System.Collections.Concurrent;
+
+namespace Masa.Blazor.Extensions.Languages.Razor;
 
 public class CompileRazorProjectFileSystem : RazorProjectFileSystem
 {
-    private static List<string> _globalUsing = new()
+    private static ConcurrentBag<string> _globalUsing = new()
     {
         "@using Microsoft.AspNetCore.Components.Web"
     };
@@ -12,19 +14,19 @@ public class CompileRazorProjectFileSystem : RazorProjectFileSystem
 
     public static void AddGlobalUsing(params string[] args)
     {
-        lock (_globalUsing)
+        foreach (var arg in args)
         {
-            _globalUsing.AddRange(args);
+            _globalUsing.Add(arg);
         }
     }
-    
+
     public static void RemoveGlobalUsing(params string[] args)
     {
         lock (_globalUsing)
         {
             foreach (var s in args)
             {
-                _globalUsing.Remove(s);
+                _globalUsing = new ConcurrentBag<string>(_globalUsing.Except(new[] { s }));
             }
         }
     }

@@ -3,23 +3,23 @@
 public class CompileRazorOptions
 {
     /// <summary>
-    /// 编译代码
+    /// compiled code
     /// </summary>
     public string Code { get; set; }
 
     /// <summary>
-    /// Razor组件名称
+    /// razor component name
     /// </summary>
     public string ComponentName { get; set; } = "Rendering";
 
     /// <summary>
-    /// 配置名称
+    /// Configuration Name 
     /// </summary>
     public string ConfigurationName { get; set; } = "Default";
 
     /// <summary>
-    /// 是否Build时并发
-    /// （WebAssembly不支持多线程使用并发会报错）
+    /// Whether to Build concurrently
+    /// （WebAssembly does not support multiple threads using concurrency）
     /// </summary>
     public bool ConcurrentBuild { get; set; } = false;
 }

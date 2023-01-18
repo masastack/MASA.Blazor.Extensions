@@ -10,19 +10,17 @@ RazorCompile.Initialized(await GetReference(),await GetRazorExtension());
 
 async Task<List<PortableExecutableReference>?> GetReference()
 {
-    
-    
     #region WebAsembly
-
+    // introduction Service
     var httpClient = service.GetService<HttpClient>();
 
     var refs = new List<PortableExecutableReference>();
-    foreach (var v in AppDomain.CurrentDomain.GetAssemblies())
+    foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
     {
         try
         {
             // WebAssembly You need to get the assembly over the network
-            var stream = await httpClient!.GetStreamAsync("_framework/" + v.GetName().Name + ".dll");
+            var stream = await httpClient!.GetStreamAsync($"_framework/{assembly.GetName().Name}.dll");
             if(stream.Length > 0)
             {
                 refs?.Add(MetadataReference.CreateFromStream(stream));
@@ -40,7 +38,7 @@ async Task<List<PortableExecutableReference>?> GetReference()
     #region Server
     
     var refs = new List<PortableExecutableReference>();
-    foreach (var v in AppDomain.CurrentDomain.GetAssemblies())
+    foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
     {
         try
         {
