@@ -34,7 +34,7 @@ public class RazorCompile
     public static byte[] CompileToByte(CompileRazorOptions razorOptions)
     {
         // Null code will cause compilation failure
-        if (string.IsNullOrEmpty(razorOptions.Code))
+        if (string.IsNullOrWhiteSpace(razorOptions.Code))
         {
             return null;
         }
@@ -89,15 +89,15 @@ public class RazorCompile
         if (string.IsNullOrEmpty(targetCode) && cSharpDocument.Diagnostics.Count != 0)
             return null;
 
-        var st = Microsoft.CodeAnalysis.CSharp.CSharpSyntaxTree.ParseText(targetCode);
-        var csc = Microsoft.CodeAnalysis.CSharp.CSharpCompilation.Create("new" + Guid.NewGuid().ToString("N"))
+        var syntaxTree = Microsoft.CodeAnalysis.CSharp.CSharpSyntaxTree.ParseText(targetCode);
+        var cSharpCompilation = Microsoft.CodeAnalysis.CSharp.CSharpCompilation.Create($"new{Guid.NewGuid():N}")
             .WithOptions(new Microsoft.CodeAnalysis.CSharp.CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
-                concurrentBuild: razorOptions.ConcurrentBuild)) // TODO: If it is web Assembly you need to cancel the concurrency otherwise it will not work
-            .AddSyntaxTrees(st)
+                concurrentBuild: razorOptions.ConcurrentBuild)) // TODO: If it is WebAssembly you need to cancel the concurrency otherwise it will not work
+            .AddSyntaxTrees(syntaxTree)
             .AddReferences(_references);
 
-        MemoryStream ms = new();
-        var result = csc.Emit(ms);
+        using MemoryStream ms = new();
+        var result = cSharpCompilation.Emit(ms);
         if (!result.Success)
             throw new Exception(result.Diagnostics.First(v => v.Severity == DiagnosticSeverity.Error).ToString());
 
