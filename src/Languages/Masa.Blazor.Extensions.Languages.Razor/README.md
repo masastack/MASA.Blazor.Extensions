@@ -5,12 +5,14 @@ English| [简体中文](./README.zh-CN.md)
 ## sample
 
 ```csharp
+
 // Initialize the RazorCompile must be initialized before calling compilation
 RazorCompile.Initialized(await GetReference(),await GetRazorExtension());
 
 async Task<List<PortableExecutableReference>?> GetReference()
 {
     #region WebAsembly
+    
     // introduction Service
     var httpClient = service.GetService<HttpClient>();
 
@@ -34,7 +36,6 @@ async Task<List<PortableExecutableReference>?> GetReference()
 
     #endregion
     
-    
     #region Server
     
     var portableExecutableReferences = new List<PortableExecutableReference>();
@@ -51,7 +52,6 @@ async Task<List<PortableExecutableReference>?> GetReference()
         }
     }
     
-
     #endregion
    
     // As a result of WebAssembly and Server return to PortableExecutableReference mechanism are different need to separate processing
@@ -159,15 +159,16 @@ After the initialization is complete, you can call the tool method to edit the C
 </style>
 ```
 
-
 ## Runtime API Reference
 
 ### Add a global reference at compile time
+
 ```csharp
 CompileRazorProjectFileSystem.AddGlobalUsing("@using Masa.Blazor")
 ```
 
 ### Remove global references at compile time
+
 ```csharp
 CompileRazorProjectFileSystem.RemoveGlobalUsing("@using Masa.Blazor")
 ```

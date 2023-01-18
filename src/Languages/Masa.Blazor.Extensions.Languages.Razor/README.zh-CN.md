@@ -5,12 +5,14 @@
 ## 示例
 
 ```csharp
+
 // RazorCompile 在调用编译之前必须先初始化
 RazorCompile.Initialized(await GetReference(),await GetRazorExtension());
 
 async Task<List<PortableExecutableReference>?> GetReference()
 {   
     #region WebAsembly
+    
     // 传入Service
     var httpClient = service.GetService<HttpClient>();
 
@@ -34,7 +36,6 @@ async Task<List<PortableExecutableReference>?> GetReference()
 
     #endregion
     
-    
     #region Server
     
     var portableExecutableReferences = new List<PortableExecutableReference>();
@@ -50,7 +51,6 @@ async Task<List<PortableExecutableReference>?> GetReference()
             Console.WriteLine(e.Message);
         }
     }
-    
 
     #endregion
    
@@ -159,15 +159,16 @@ async Task<List<RazorExtension>> GetRazorExtension()
 </style>
 ```
 
-
 ## Api说明
 
 ### 添加编译时的全局引用
+
 ```csharp
 CompileRazorProjectFileSystem.AddGlobalUsing("@using Masa.Blazor")
 ```
 
 ### 删除编译时的全局引用
+
 ```csharp
 CompileRazorProjectFileSystem.RemoveGlobalUsing("@using Masa.Blazor")
 ```
