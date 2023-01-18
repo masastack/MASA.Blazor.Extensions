@@ -4,7 +4,7 @@
 
 ```csharp
 // 初始化CodeRenderingHelper 在调用编译之前必须先初始化
-await CodeRenderingHelper.Initialized(await GetReference(),await GetRazorExtension());
+CodeRenderingHelper.Initialized(await GetReference(),await GetRazorExtension());
 
 async Task<List<PortableExecutableReference>?> GetReference()
 {
