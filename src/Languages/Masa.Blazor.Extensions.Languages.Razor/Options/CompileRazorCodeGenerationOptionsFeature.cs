@@ -6,16 +6,15 @@ public class CompileRazorCodeGenerationOptionsFeature : IConfigureRazorCodeGener
 
     public RazorEngine Engine { get; set; }
 
+    public IReadOnlyList<TagHelperDescriptor> TagHelpers { get; set; }
+    
     public void Configure(RazorCodeGenerationOptionsBuilder options)
     {
         options.RootNamespace = Constant.ROOT_NAMESPACE;
     }
-
-    public IReadOnlyList<TagHelperDescriptor> TagHelpers { get; set; }
-
+    
     public IReadOnlyList<TagHelperDescriptor> GetDescriptors()
     {
         return TagHelpers;
     }
-
 }
