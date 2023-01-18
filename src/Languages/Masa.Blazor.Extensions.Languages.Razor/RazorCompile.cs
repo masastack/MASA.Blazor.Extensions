@@ -31,7 +31,7 @@ public class RazorCompile
     public static Assembly CompileToAssembly(CompileRazorOptions razorOptions)
         => Assembly.Load(CompileToByte(razorOptions));
 
-    public static byte[] CompileToByte(CompileRazorOptions razorOptions)
+    public static byte[]? CompileToByte(CompileRazorOptions razorOptions)
     {
         // Null code will cause compilation failure
         if (string.IsNullOrWhiteSpace(razorOptions.Code))
@@ -39,9 +39,9 @@ public class RazorCompile
             return null;
         }
 
-        ArgumentNullException.ThrowIfNull(nameof(_references));
+        ArgumentNullException.ThrowIfNull(_references);
         
-        ArgumentNullException.ThrowIfNull(nameof(_extensions));
+        ArgumentNullException.ThrowIfNull(_extensions);
 
         var config = RazorConfiguration.Create(RazorLanguageVersion.Version_3_0, razorOptions.ConfigurationName,
             _extensions);
