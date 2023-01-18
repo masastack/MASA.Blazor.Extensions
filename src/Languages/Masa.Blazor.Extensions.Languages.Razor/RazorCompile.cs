@@ -23,13 +23,28 @@ public class RazorCompile
     public static Type? CompileToType(CompileRazorOptions razorOptions)
     {
         var assembly = CompileToAssembly(razorOptions);
+        
+        if (assembly == null)
+        {
+            return null;
+        }
+        
         return assembly.GetType(Constant.ROOT_NAMESPACE.EndsWith(".")
             ? Constant.ROOT_NAMESPACE
             : Constant.ROOT_NAMESPACE + "." + razorOptions.ComponentName);
     }
 
-    public static Assembly CompileToAssembly(CompileRazorOptions razorOptions)
-        => Assembly.Load(CompileToByte(razorOptions));
+    public static Assembly? CompileToAssembly(CompileRazorOptions razorOptions)
+    {
+        var compileToByte = CompileToByte(razorOptions);
+        
+        if (compileToByte == null)
+        {
+            return null;
+        }
+        
+        return Assembly.Load(compileToByte);
+    }
 
     public static byte[]? CompileToByte(CompileRazorOptions razorOptions)
     {
