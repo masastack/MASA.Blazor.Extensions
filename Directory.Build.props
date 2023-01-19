@@ -4,8 +4,8 @@
 	
     <PackageId>$(AssemblyName)</PackageId>
     <PackageIcon>packageIcon.png</PackageIcon>
-    <Authors>BlazorComponent</Authors>
-    <Copyright>© BlazorComponent Corporation. All rights reserved.</Copyright>
+    <Authors>MASA Stack</Authors>
+    <Copyright>© MASA Stack Corporation. All rights reserved.</Copyright>
     <PackageIconUrl>packageIcon.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/BlazorComponent/MASA.Blazor.Extensions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -16,11 +16,11 @@
   <ItemGroup>
     <None Include="$(RepositoryRoot)packageIcon.png">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
+      <PackagePath>\</PackagePath>
     </None>
     <None Include="$(RepositoryRoot)LICENSE">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 </Project>
