@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Masa.Blazor.Extensions.Lang
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Languages", "Languages", "{B641C478-8E7D-4E62-BF0B-8214724AA144}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution items", "solution items", "{92C04A26-7A89-420B-8E99-36797F69DE0F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Directory.Build", "Directory.Build.props", "{5055D741-D4BE-44BF-9478-1ACDE36D27CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +30,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{0728B33B-0A33-403B-9586-41CBD4F9DB13} = {B641C478-8E7D-4E62-BF0B-8214724AA144}
 		{B641C478-8E7D-4E62-BF0B-8214724AA144} = {51E6BF6E-CF63-4DF0-B048-C821E763BE5A}
+		{5055D741-D4BE-44BF-9478-1ACDE36D27CE} = {92C04A26-7A89-420B-8E99-36797F69DE0F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {58081D66-840C-41BE-AC2C-4E5B92BAE7E5}
