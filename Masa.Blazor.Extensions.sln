@@ -5,7 +5,9 @@ VisualStudioVersion = 17.5.33209.295
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{51E6BF6E-CF63-4DF0-B048-C821E763BE5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Masa.Blazor.Extensions.Languages.Razor", "src\Languages\Masa.Blazor.Extensions.Languages.Razor\Masa.Blazor.Extensions.Languages.Razor.csproj", "{0728B33B-0A33-403B-9586-41CBD4F9DB13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Masa.Blazor.Extensions.Languages.Razor", "src\Languages\Masa.Blazor.Extensions.Languages.Razor\Masa.Blazor.Extensions.Languages.Razor.csproj", "{0728B33B-0A33-403B-9586-41CBD4F9DB13}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Languages", "Languages", "{B641C478-8E7D-4E62-BF0B-8214724AA144}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,7 +24,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{0728B33B-0A33-403B-9586-41CBD4F9DB13} = {51E6BF6E-CF63-4DF0-B048-C821E763BE5A}
+		{0728B33B-0A33-403B-9586-41CBD4F9DB13} = {B641C478-8E7D-4E62-BF0B-8214724AA144}
+		{B641C478-8E7D-4E62-BF0B-8214724AA144} = {51E6BF6E-CF63-4DF0-B048-C821E763BE5A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {58081D66-840C-41BE-AC2C-4E5B92BAE7E5}
