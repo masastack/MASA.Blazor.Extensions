@@ -1,0 +1,26 @@
+<Project>
+  <PropertyGroup>
+    <MicrosoftPackageVersion>6.0.13</MicrosoftPackageVersion>
+	
+    <PackageId>$(AssemblyName)</PackageId>
+    <PackageIcon>packageIcon.png</PackageIcon>
+    <Authors>BlazorComponent</Authors>
+    <Copyright>© BlazorComponent Corporation. All rights reserved.</Copyright>
+    <PackageIconUrl>packageIcon.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/BlazorComponent/MASA.Blazor.Extensions</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <RepositoryRoot>$(MSBuildThisFileDirectory)</RepositoryRoot>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(RepositoryRoot)packageIcon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="$(RepositoryRoot)LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
