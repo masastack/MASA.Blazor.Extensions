@@ -13,7 +13,7 @@ async Task<List<PortableExecutableReference>?> GetReference()
 {   
     #region WebAsembly
     
-    // 传入Service
+    // 需要添加Service
     var httpClient = service.GetService<HttpClient>();
 
     var portableExecutableReferences = new List<PortableExecutableReference>();

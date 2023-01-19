@@ -3,7 +3,7 @@
 public class CompileRazorOptions
 {
     /// <summary>
-    /// compiled code
+    /// Compiled code
     /// </summary>
     public string Code { get; set; }
 
