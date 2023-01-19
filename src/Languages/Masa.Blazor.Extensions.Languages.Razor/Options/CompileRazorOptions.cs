@@ -8,7 +8,7 @@ public class CompileRazorOptions
     public string Code { get; set; }
 
     /// <summary>
-    /// razor component name
+    /// razor Component name
     /// </summary>
     public string ComponentName { get; set; } = "Rendering";
 

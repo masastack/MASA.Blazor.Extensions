@@ -60,11 +60,11 @@ async Task<List<PortableExecutableReference>?> GetReference()
 
 async Task<List<RazorExtension>> GetRazorExtension()
 {
-    var exits = new List<RazorExtension>();
+    var razorExtension = new List<RazorExtension>();
 
     foreach (var asm in typeof(Program).Assembly.GetReferencedAssemblies())
     {
-        exits.Add(new AssemblyExtension(asm.FullName, AppDomain.CurrentDomain.Load(asm.FullName)));
+        razorExtension.Add(new AssemblyExtension(asm.FullName, AppDomain.CurrentDomain.Load(asm.FullName)));
     }
 
     return exits;

@@ -24,10 +24,7 @@ public class CompileRazorProjectFileSystem : RazorProjectFileSystem
     {
         lock (_globalUsing)
         {
-            foreach (var s in args)
-            {
-                _globalUsing = new ConcurrentBag<string>(_globalUsing.Except(args));
-            }
+            _globalUsing = new ConcurrentBag<string>(_globalUsing.Except(args));
         }
     }
 
