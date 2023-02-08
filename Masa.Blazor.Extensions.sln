@@ -5,11 +5,11 @@ VisualStudioVersion = 17.5.33209.295
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{51E6BF6E-CF63-4DF0-B048-C821E763BE5A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Masa.Blazor.Extensions.Languages.Razor", "src\Languages\Masa.Blazor.Extensions.Languages.Razor\Masa.Blazor.Extensions.Languages.Razor.csproj", "{0728B33B-0A33-403B-9586-41CBD4F9DB13}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Languages", "Languages", "{B641C478-8E7D-4E62-BF0B-8214724AA144}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution items", "solution items", "{92C04A26-7A89-420B-8E99-36797F69DE0F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Masa.Blazor.Extensions.Languages.Razor", "src\Languages\Masa.Blazor.Extensions.Languages.Razor\Masa.Blazor.Extensions.Languages.Razor.csproj", "{0728B33B-0A33-403B-9586-41CBD4F9DB13}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Directory.Build", "Directory.Build.props", "{5055D741-D4BE-44BF-9478-1ACDE36D27CE}"
 EndProject
@@ -23,13 +23,17 @@ Global
 		{0728B33B-0A33-403B-9586-41CBD4F9DB13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0728B33B-0A33-403B-9586-41CBD4F9DB13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0728B33B-0A33-403B-9586-41CBD4F9DB13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5055D741-D4BE-44BF-9478-1ACDE36D27CE}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{5055D741-D4BE-44BF-9478-1ACDE36D27CE}.Debug|Any CPU.Build.0 = Debug|x86
+		{5055D741-D4BE-44BF-9478-1ACDE36D27CE}.Release|Any CPU.ActiveCfg = Debug|x86
+		{5055D741-D4BE-44BF-9478-1ACDE36D27CE}.Release|Any CPU.Build.0 = Debug|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{0728B33B-0A33-403B-9586-41CBD4F9DB13} = {B641C478-8E7D-4E62-BF0B-8214724AA144}
 		{B641C478-8E7D-4E62-BF0B-8214724AA144} = {51E6BF6E-CF63-4DF0-B048-C821E763BE5A}
+		{0728B33B-0A33-403B-9586-41CBD4F9DB13} = {B641C478-8E7D-4E62-BF0B-8214724AA144}
 		{5055D741-D4BE-44BF-9478-1ACDE36D27CE} = {92C04A26-7A89-420B-8E99-36797F69DE0F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

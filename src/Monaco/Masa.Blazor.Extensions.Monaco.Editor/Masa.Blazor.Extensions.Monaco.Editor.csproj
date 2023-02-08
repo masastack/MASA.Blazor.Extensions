@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <Import Project="js\WebpackBuild.targets" />
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+		<IsPackable>true</IsPackable>
+		<IsShipping>true</IsShipping>
+        <RootNamespace>Masa.Blazor.Monaco.Editor</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0" />
+    </ItemGroup>
+
+	<ItemGroup>
+		<Content Remove="js\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <WebpackBuildInputs Remove="js\package-lock.json" />
+	  <WebpackBuildInputs Remove="js\package.json" />
+	  <WebpackBuildInputs Remove="js\tsconfig.json" />
+	  <WebpackBuildInputs Remove="MasaBlazorMonacoEditorExtension.cs" />
+	  <WebpackBuildInputs Remove="README.md" />
+	  <WebpackBuildInputs Remove="README.zh-CN.md" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="js\package-lock.json" />
+	  <Content Include="js\package.json" />
+	  <Content Include="js\tsconfig.json" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "build:Debug": "tsc -p .",
+    "build:Release": "tsc -p ."
+  },
+  "dependencies": {
+    "typescript": "^4.3.5"
+  }
+}
