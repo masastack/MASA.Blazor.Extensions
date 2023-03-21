@@ -1,12 +1,14 @@
-﻿namespace Masa.Blazor.Extensions.Languages.Razor;
+﻿using System.Text.Json;
+
+namespace Masa.Blazor.Extensions.Languages.Razor;
 
 public class RazorCompile
 {
     private static List<PortableExecutableReference>? _references;
-
-    private static TagHelperDescriptor[]? _tagHelpers;
-
+    
     private static List<RazorExtension>? _extensions;
+
+    private static RazorProjectEngine _engine;
 
     /// <summary>
     /// Component initialization Initializes components before compilation
@@ -18,17 +20,35 @@ public class RazorCompile
     {
         _references = refs;
         _extensions = extensions;
+
+        var config = RazorConfiguration.Create(RazorLanguageVersion.Version_6_0, Constant.ROOT_NAMESPACE,
+            _extensions);
+
+        var proj = new CompileRazorProjectFileSystem();
+
+        _engine = RazorProjectEngine.Create(config, proj, builder =>
+        {
+            builder.SetRootNamespace(Constant.ROOT_NAMESPACE);
+            builder.AddDefaultImports(CompileRazorProjectFileSystem.GlobalUsing);
+
+            CompilerFeatures.Register(builder);
+            builder.Features.Add(new CompilationTagHelperFeature());
+            builder.Features.Add(new DefaultMetadataReferenceFeature
+            {
+                References = _references
+            });
+        });
     }
 
     public static Type? CompileToType(CompileRazorOptions razorOptions)
     {
         var assembly = CompileToAssembly(razorOptions);
-        
+
         if (assembly == null)
         {
             return null;
         }
-        
+
         return assembly.GetType(Constant.ROOT_NAMESPACE.EndsWith(".")
             ? Constant.ROOT_NAMESPACE
             : Constant.ROOT_NAMESPACE + "." + razorOptions.ComponentName);
@@ -37,12 +57,12 @@ public class RazorCompile
     public static Assembly? CompileToAssembly(CompileRazorOptions razorOptions)
     {
         var compileToByte = CompileToByte(razorOptions);
-        
+
         if (compileToByte == null)
         {
             return null;
         }
-        
+
         return Assembly.Load(compileToByte);
     }
 
@@ -55,32 +75,10 @@ public class RazorCompile
         }
 
         ArgumentNullException.ThrowIfNull(_references);
-        
+
         ArgumentNullException.ThrowIfNull(_extensions);
 
-        var config = RazorConfiguration.Create(RazorLanguageVersion.Version_3_0, razorOptions.ConfigurationName,
-            _extensions);
-
-        var proj = new CompileRazorProjectFileSystem();
-
-        if (_tagHelpers == null)
-        {
-            var razorProjectEngine = RazorProjectEngine.Create(config, proj, builder =>
-            {
-                builder.Features.Add(new DefaultMetadataReferenceFeature
-                {
-                    References = _references
-                });
-                builder.Features.Add(new CompilationTagHelperFeature());
-                builder.Features.Add(new DefaultTagHelperDescriptorProvider());
-                CompilerFeatures.Register(builder);
-            });
-
-            _tagHelpers = razorProjectEngine.Engine.Features.OfType<ITagHelperFeature>().Single().GetDescriptors().ToArray();
-        }
-
-        var engine = RazorProjectEngine.Create(config, proj,
-            builder => { builder.Features.Add(new CompileRazorCodeGenerationOptionsFeature() { TagHelpers = _tagHelpers }); });
+        ArgumentNullException.ThrowIfNull(_engine);
 
         var codeRenderingProjectItem = new CompileRazorProjectItem()
         {
@@ -90,17 +88,28 @@ public class RazorCompile
             Code = razorOptions.Code
         };
 
-        var razorDoc = engine.Process(codeRenderingProjectItem);
+        var razorDoc = _engine.Process(codeRenderingProjectItem);
         var cSharpDocument = razorDoc.GetCSharpDocument();
 
         var targetCode = cSharpDocument.GeneratedCode;
 
-        if (string.IsNullOrWhiteSpace(targetCode) && cSharpDocument.Diagnostics.Count != 0)
+        if (string.IsNullOrWhiteSpace(targetCode))
             return null;
+
+        if (cSharpDocument.Diagnostics.Count != 0)
+        {
+            throw new Exception(JsonSerializer.Serialize(cSharpDocument.Diagnostics));
+        }
 
         var syntaxTree = Microsoft.CodeAnalysis.CSharp.CSharpSyntaxTree.ParseText(targetCode);
         var cSharpCompilation = Microsoft.CodeAnalysis.CSharp.CSharpCompilation.Create($"new{Guid.NewGuid():N}")
             .WithOptions(new Microsoft.CodeAnalysis.CSharp.CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
+                optimizationLevel: razorOptions.OptimizationLevel,
+                specificDiagnosticOptions: new[]
+                {
+                    new KeyValuePair<string, ReportDiagnostic>("CS1701", ReportDiagnostic.Suppress),
+                    new KeyValuePair<string, ReportDiagnostic>("CS1702", ReportDiagnostic.Suppress),
+                },
                 concurrentBuild: razorOptions.ConcurrentBuild)) // TODO: If it is WebAssembly you need to cancel the concurrency otherwise it will not work
             .AddSyntaxTrees(syntaxTree)
             .AddReferences(_references);
