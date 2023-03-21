@@ -22,4 +22,6 @@ public class CompileRazorOptions
     /// （WebAssembly does not support multiple threads using concurrency）
     /// </summary>
     public bool ConcurrentBuild { get; set; } = false;
+
+    public OptimizationLevel OptimizationLevel { get; set; } = OptimizationLevel.Release;
 }
