@@ -17,7 +17,7 @@ async Task<List<PortableExecutableReference>?> GetReference()
     var httpClient = service.GetService<HttpClient>();
 
     var portableExecutableReferences = new List<PortableExecutableReference>();
-    foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+    foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
     {
         try
         {
@@ -39,12 +39,12 @@ async Task<List<PortableExecutableReference>?> GetReference()
     #region Server
     
     var portableExecutableReferences = new List<PortableExecutableReference>();
-    foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+    foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
     {
         try
         {
             // Server is running on the Server and you can get the file directly if you're a Hybrid like Maui Wpf you don't need to get the file through HttpClient and you can get the file directly like server
-            portableExecutableReferences?.Add(MetadataReference.CreateFromFile(v.Location));
+            portableExecutableReferences?.Add(MetadataReference.CreateFromFile(assembly.Location));
         }
         catch (Exception e)
         {
