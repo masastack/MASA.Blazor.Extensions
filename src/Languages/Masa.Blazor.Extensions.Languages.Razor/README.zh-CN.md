@@ -17,7 +17,7 @@ async Task<List<PortableExecutableReference>?> GetReference()
     var httpClient = service.GetService<HttpClient>();
 
     var portableExecutableReferences = new List<PortableExecutableReference>();
-    foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+    foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
     {
         try
         {
@@ -39,12 +39,12 @@ async Task<List<PortableExecutableReference>?> GetReference()
     #region Server
     
     var portableExecutableReferences = new List<PortableExecutableReference>();
-    foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+    foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
     {
         try
         {
             // Server是在服务器运行可以直接获取文件 如果是Maui Wpf这种Hybrid开发的话不需要通过HttpClient获取可以跟Server一样直接读取文件
-            portableExecutableReferences?.Add(MetadataReference.CreateFromFile(asm.Location));
+            portableExecutableReferences?.Add(MetadataReference.CreateFromFile(assembly.Location));
         }
         catch (Exception e)
         {
