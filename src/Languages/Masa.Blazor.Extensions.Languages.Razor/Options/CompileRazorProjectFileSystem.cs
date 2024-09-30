@@ -6,7 +6,9 @@ public class CompileRazorProjectFileSystem : RazorProjectFileSystem
 {
     private static ConcurrentBag<string> _globalUsing = new()
     {
-        "@using Microsoft.AspNetCore.Components.Web"
+        "@using Microsoft.AspNetCore.Components.Web",
+        "@using Microsoft.AspNetCore.Components",
+        "@using System",
     };
 
     public static string GlobalUsing =>

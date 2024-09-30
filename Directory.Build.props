@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <MicrosoftPackageVersion>6.0.13</MicrosoftPackageVersion>
+    <MicrosoftPackageVersion>6.0.33</MicrosoftPackageVersion>
 	
     <PackageId>$(AssemblyName)</PackageId>
     <PackageIcon>packageIcon.png</PackageIcon>

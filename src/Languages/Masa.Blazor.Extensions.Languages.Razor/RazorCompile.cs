@@ -21,7 +21,7 @@ public class RazorCompile
         _references = refs;
         _extensions = extensions;
 
-        var config = RazorConfiguration.Create(RazorLanguageVersion.Version_6_0, Constant.ROOT_NAMESPACE,
+        var config = RazorConfiguration.Create(RazorLanguageVersion.Latest, Constant.ROOT_NAMESPACE,
             _extensions);
 
         var proj = new CompileRazorProjectFileSystem();
@@ -96,7 +96,7 @@ public class RazorCompile
         if (string.IsNullOrWhiteSpace(targetCode))
             return null;
 
-        if (cSharpDocument.Diagnostics.Count != 0)
+        if (cSharpDocument.Diagnostics.Count(v => v.Severity == RazorDiagnosticSeverity.Error) > 0)
         {
             throw new Exception(cSharpDocument.Diagnostics.First(v => v.Severity == RazorDiagnosticSeverity.Error)
                 .ToString());
